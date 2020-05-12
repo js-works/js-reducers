@@ -8,8 +8,8 @@ import Case from '../internal/types/Case'
 export default function createImmerReducer<S extends State>(initialState: S, cases: Case<S>[]) {
   const reducers: any = {}
 
-  cases.forEach(({ type, reducer }) => {
-    reducers[type] = reducer
+  cases.forEach(({ type, reduce }) => {
+    reducers[type] = reduce
   })
 
   return (state = initialState, msg: Message): S => {

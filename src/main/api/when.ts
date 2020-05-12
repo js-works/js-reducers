@@ -8,7 +8,7 @@ export default function when<T extends string, P, M, S extends State>(
   return {
     type: messageCreator.type,
     
-    reducer(state: S, msg: Message) {
+    reduce(state: S, msg: Message) {
       return msg && msg.type === messageCreator.type
         ? handle(
             state,
