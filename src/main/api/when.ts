@@ -3,14 +3,14 @@ import Message from '../internal/types/Message'
 
 export default function when<T extends string, P, M, S extends State>(
   messageCreator: MessageCreator<T, P, M>,
-  reduce: (state: S, payload: P, meta: M, error: boolean) => Partial<S> | void
+  handle: (state: S, payload: P, meta: M, error: boolean) => Partial<S> | void
 ) {
   return {
     type: messageCreator.type,
     
-    handle(state: S, msg: Message) {
+    reducer(state: S, msg: Message) {
       return msg && msg.type === messageCreator.type
-        ? reduce(
+        ? handle(
             state,
             getOwnProp(msg, 'payload'),
             getOwnProp(msg, 'meta'),

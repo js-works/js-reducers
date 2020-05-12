@@ -1,13 +1,13 @@
 import hasOwnProp from '../internal/hasOwnProp'
 import State from '../internal/types/State'
 import Message from '../internal/types/Message'
-import When from '../internal/types/When'
+import Case from '../internal/types/Case'
 
-export default function createReducer<S extends Readonly<State>>(initialState: S, whens: When<S>[]) {
+export default function createReducer<S extends Readonly<State>>(initialState: S, cases: Case<S>[]) {
   const reducers: any = {}
 
-  whens.forEach(({ type, handle}) => {
-    reducers[type] = handle
+  cases.forEach(({ type, reducer }) => {
+    reducers[type] = reducer
   })
 
   return (state = initialState, msg: Message): S => {
