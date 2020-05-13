@@ -1,5 +1,11 @@
 # js-reducers
 
+[![Licence](https://img.shields.io/badge/licence-LGPLv3-blue.svg?style=flat)](https://github.com/js-works/js-reducers/blob/master/LICENSE)
+[![npm version](https://img.shields.io/npm/v/js-reducers.svg?style=flat)](https://www.npmjs.com/package/js-reducers)
+[![Build status](https://travis-ci.com/js-works/js-reducers.svg)](https://travis-ci.org/js-works/js-reducers)
+[![Coverage status](https://coveralls.io/repos/github/js-works/js-reducers/badge.svg?branch=master)](https://coveralls.io/github/js-works/js-reducers?branch=master)
+
+
 A small library to handle state reducers in an opinionated way.
 This a sister project of [*js-messages*](https://github.com/js-works/js-messages).
 In combination they provide a more concise way for application that base on
@@ -57,7 +63,7 @@ const initialLogState = {
 
 // The `when` helper is useful if you want to define
 // reducers in a strict functional way.
-const counterReducer = defineReducer(initialCountState, [
+const counterReducer = createReducer(initialCountState, [
   when(CounterMsg.increment, (state, { delta }) => {
     return { ...state, count: state.count + delta }
   }),
@@ -72,7 +78,7 @@ const counterReducer = defineReducer(initialCountState, [
 // Be aware the created reducer will still behave completely
 // strict functional externally - nobody will notice that
 // Immer has been used internally.
-const logReducer = defineReducer(initialLogState, [
+const logReducer = createReducer(initialLogState, [
   handle(LogMsg.info, (state, { text }) => {
     state.entries.push({ level: 'info', text })
   }),
@@ -91,3 +97,6 @@ const rootReducer = combineReducers({
   log: logReducer
 })
 ```
+### Project status
+
+`js-reducer` is still in alpha stage.
