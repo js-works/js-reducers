@@ -1,6 +1,5 @@
 import State from '../internal/types/State'
 import Reducer from '../internal/types/Reducer'
-import Message from '../internal/types/Message'
 
 type Reducers = {
   [key: string]: Reducer<any>
@@ -15,7 +14,7 @@ type CombinedReducers<R extends Reducers> = Reducer<CombinedState<R>>
 export default function combineReducers<R extends Reducers>(reducers: R): CombinedReducers<R> {
   const keys: (keyof R)[] = Object.keys(reducers)
 
-  return (state: CombinedState<R>, msg: Message) => {
+  return (state: CombinedState<R>, msg: { type: string }) => {
     let newState: CombinedState<R> | null = null
 
     keys.forEach(key => {

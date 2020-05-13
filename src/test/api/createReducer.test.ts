@@ -2,10 +2,8 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 
 import createReducer from '../../main/api/createReducer'
-import pick from '../../main/api/pick'
 import when from '../../main/api/when'
 import handle from '../../main/api/handle'
-import on from '../../main/api/on'
 import defineMessage from '../utils/defineMessage'
 
 const CounterMsg = {
@@ -16,28 +14,28 @@ const CounterMsg = {
 }
 
 const reduce = createReducer({ count: 0 }, [
-  on(CounterMsg.increment, (state, { delta }) => {
-    state.count += delta
+  when(CounterMsg.increment, (state, { delta }) => {
+    return { ...state, count: state.count + delta}
   }),
   
   when(CounterMsg.decrement, (state, { delta }) => {
     return { ...state, count: state.count - delta }
   }),
 
-  pick(CounterMsg.reset, (state, msg) => {
-    return { ...state, count: msg.payload.count }
+  handle(CounterMsg.reset, (state, { count }) => {
+    state.count = count
   }),
   
-  handle(CounterMsg.multiply, (state, msg) => {
-    state.count *= msg.payload.factor
-  })
+  handle(CounterMsg.multiply, (state, { factor }) => {
+    state.count *= factor
+  }),
 ])
 
 describe('createReducer', () => {
   it('should create reducer that handles several message types', () => {
     expect(reduce({ count: 0 }, CounterMsg.increment()))
       .to.eql({ count: 1 })
-    
+
     expect(reduce({ count: 100 }, CounterMsg.increment()))
       .to.eql({ count: 101 })
     
@@ -50,7 +48,7 @@ describe('createReducer', () => {
     expect(reduce({ count: 200 }, CounterMsg.reset(100)))
       .to.eql({ count: 100 })
     
-    expect(reduce({ count: 100 }, CounterMsg.multiply(4)))
-      .to.eql({ count: 400 })
+      expect(reduce({ count: 200 }, CounterMsg.multiply(3)))
+      .to.eql({ count: 600 })
   })
 })

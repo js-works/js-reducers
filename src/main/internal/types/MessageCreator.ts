@@ -1,8 +1,11 @@
-import Message from './Message'
-
 export default MessageCreator
 
-type MessageCreator<T extends string, M extends Message<T>> = {
-  (...args: any[]): M
+type MessageCreator<T extends string, P, M> = {
+  (...args: any[]): {
+    type: T,
+    payload?: P,
+    meta?: M 
+  }
+  
   type: T
 }
