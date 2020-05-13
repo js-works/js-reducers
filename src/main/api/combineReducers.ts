@@ -15,7 +15,7 @@ type CombinedReducers<R extends Reducers> = Reducer<CombinedState<R>>
 export default function combineReducers<R extends Reducers>(reducers: R): CombinedReducers<R> {
   const keys: (keyof R)[] = Object.keys(reducers)
 
-  return (state: CombinedState<R> | undefined, msg: Message) => {
+  return (state: CombinedState<R>, msg: Message) => {
     let newState: CombinedState<R> | null = null
 
     keys.forEach(key => {
