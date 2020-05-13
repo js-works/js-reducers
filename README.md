@@ -23,19 +23,29 @@ In combination they provide a more concise way for application that base on
 ### Usage (demo is completely type-safe with TypeScript)
 
 ```javascript
-import { defineMessages } from 'js-messages'
+import { defineMessage } from 'js-messages'
 import { createReducer, combineReducer, handle, when } from 'js-reducers'
 
-const CounterMsg = defineMessages({
-  increment: (delta: number = 1) => ({ delta }),
-  reset: (count: number = 0) => ({ count })
-})
+// This will generate message creators for the counter domain.
+const CounterMsg = {
+  increment: defineMessage('counter.increment',
+    (delta: number = 1) => ({ delta })),
+  
+  reset: defineMessage('counter.reset',
+    (count: number = 0) => ({ count }))
+}
 
-const LogMsg = defineMessages({
-  info: (text: string) => ({ text })
-  warn: (text: string) => ({ text })
-  error: (text: string) => ({ text })
-})
+// This will generate message creators for the counter domain.
+const LogMsg = {
+  info: defineMessage('log.info',
+    (text: string) => ({ text })),
+
+  warn: defineMessage('log.info',
+    (text: string) => ({ text })),
+
+  error: defineMessage('log.error',
+    (text: string) => ({ text })
+}
 
 const initialCounterState = {
   count: 0
@@ -46,7 +56,7 @@ const initialLogState = {
 }
 
 // The `when` helper is useful if you want to define
-// reducers in a strict functional way
+// reducers in a strict functional way.
 const counterReducer = defineReducer(initialCountState, [
   when(CounterMsg.increment, (state, { delta }) => {
     return { ...state, count: state.count + delta }
@@ -73,7 +83,7 @@ const logReducer = defineReducer(initialLogState, [
   
   handle(LogMsg.error, (state, { text }) => {
     state.entries.push({ level: 'error', text })
-  }),
+  })
 ]) 
 
 const rootReducer = combineReducers({
