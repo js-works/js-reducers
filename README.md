@@ -17,8 +17,8 @@ In combination they provide a more concise way for application that base on
   => helper function to use in combination with createReducer (see below)
 
 * `combineReducers(config)`
-  => combine multiple reducers to a more complex one that (similar to the
-  same-named function in redux)
+  => combine multiple reducers to a more complex one that handles state
+  of several domains (similar to the same-named function in redux)
 
 ### Usage (demo is completely type-safe with TypeScript)
 
@@ -64,7 +64,7 @@ const counterReducer = defineReducer(initialCountState, [
 
   when(CounterMsg.reset, (state, { count }) => {
     return { ...state, count }
-  }
+  })
 ]) 
 
 // The `handle` helper is useful if you want to define
