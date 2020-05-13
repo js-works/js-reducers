@@ -3,7 +3,7 @@ import combineReducers from './api/combineReducers'
 import createReducer from './api/createReducer'
 import handle from './api/handle'
 import on from './api/on'
-import reduce from './api/reduce'
+import pick from './api/pick'
 import when from './api/when'
 
 export {
@@ -12,6 +12,6 @@ export {
   createReducer,
   handle,
   on,
-  reduce,
+  pick,
   when
 }
