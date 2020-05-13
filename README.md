@@ -99,4 +99,4 @@ const rootReducer = combineReducers({
 ```
 ### Project status
 
-`js-reducer` is still in alpha stage.
+*js-reducers* is still in alpha stage.
