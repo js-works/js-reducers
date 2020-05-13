@@ -1,21 +1,24 @@
 export default defineMessage
 
-function defineMessage<A extends any[], P>(
-  type: string
+function defineMessage<T extends string, A extends any[], P>(
+  type: T
 ): {
-  (...args: A): { type: string },
-  type: string
+  (...args: A): { type: T },
+  type: T
 }
 
-function defineMessage<A extends any[], P>(
-  type: string,
+function defineMessage<T extends string, A extends any[], P>(
+  type: T,
   getPayload: (...args: A) => P
 ): {
-  (...args: A): { type: string, payload: P },
-  type: string
+  (...args: A): { type: T, payload: P },
+  type: T
 }
 
-function defineMessage<A extends any[]>(type: string, getPayload?: any): any {
+function defineMessage<T extends string, A extends any[]>(
+  type: T,
+  getPayload?: any
+): any {
   const ret = (...args: A) =>
     getPayload ? { type, payload: getPayload(...args) } : { type }
 

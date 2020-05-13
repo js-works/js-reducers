@@ -1,9 +1,8 @@
 import State from './State'
-import Message from './Message'
 
-type Case<S extends State> = {
-  type: string,
-  reduce: (state: S, msg: Message) => S
+type Case<T extends string, S extends State> = {
+  type: T,
+  reduce: (state: S, msg: { type: T } & Record<string, any>) => S
 }
 
 export default Case

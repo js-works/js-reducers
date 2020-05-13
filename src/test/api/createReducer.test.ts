@@ -8,9 +8,9 @@ import defineMessage from '../utils/defineMessage'
 
 const CounterMsg = {
   increment: defineMessage('increment', (delta: number = 1) => ({ delta })),
+  increment2: defineMessage('increment2', (delta: number = 1) => ({ delta })),
   decrement: defineMessage('decrement', (delta: number = 1) => ({ delta })),
-  reset: defineMessage('reset', (count: number = 0) => ({ count })),
-  multiply: defineMessage('multiply', (factor: number) => ({ factor }))
+  decrement2: defineMessage('decrement2', (delta: number = 1) => ({ delta })),
 }
 
 const reduce = createReducer({ count: 0 }, [
@@ -18,17 +18,17 @@ const reduce = createReducer({ count: 0 }, [
     return { ...state, count: state.count + delta}
   }),
   
-  when(CounterMsg.decrement, (state, { delta }) => {
-    return { ...state, count: state.count - delta }
-  }),
-
-  handle(CounterMsg.reset, (state, { count }) => {
-    state.count = count
+  when('decrement', (state, msg) => {
+    return { ...state, count: state.count - msg.payload.delta }
   }),
   
-  handle(CounterMsg.multiply, (state, { factor }) => {
-    state.count *= factor
+  handle(CounterMsg.increment2, (state, { delta }) => {
+    state.count += delta
   }),
+  
+  handle('decrement2', (state, msg) => {
+    state.count -= msg.payload.delta
+  })
 ])
 
 describe('createReducer', () => {
@@ -36,19 +36,13 @@ describe('createReducer', () => {
     expect(reduce({ count: 0 }, CounterMsg.increment()))
       .to.eql({ count: 1 })
 
-    expect(reduce({ count: 100 }, CounterMsg.increment()))
-      .to.eql({ count: 101 })
-    
     expect(reduce({ count: 42 }, CounterMsg.decrement(2)))
       .to.eql({ count: 40 })
 
-    expect(reduce({ count: 100 }, CounterMsg.reset()))
-      .to.eql({ count: 0 })
-    
-    expect(reduce({ count: 200 }, CounterMsg.reset(100)))
-      .to.eql({ count: 100 })
-    
-      expect(reduce({ count: 200 }, CounterMsg.multiply(3)))
-      .to.eql({ count: 600 })
+    expect(reduce({ count: 0 }, CounterMsg.increment2()))
+      .to.eql({ count: 1 })
+
+    expect(reduce({ count: 42 }, CounterMsg.decrement2(2)))
+      .to.eql({ count: 40 })
   })
 })
