@@ -1,4 +1,3 @@
-import State from '../internal/types/State'
 import Reducer from '../internal/types/Reducer'
 
 type Reducers = {

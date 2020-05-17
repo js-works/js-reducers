@@ -3,7 +3,7 @@ import { expect } from 'chai'
 
 import createReducer from '../../main/api/createReducer'
 import combineReducer from '../../main/api/combineReducers'
-import when from '../../main/api/when'
+import on from '../../main/api/on'
 import defineMessage from '../utils/defineMessage'
 
 const CounterMsg = {
@@ -11,13 +11,13 @@ const CounterMsg = {
 }
 
 const counterReducer = createReducer({ count: 0 }, [
-  when(CounterMsg.increment, (state, { delta }) => {
+  on(CounterMsg.increment, (state, { delta }) => {
     return { count: state.count + delta }
-  }),
+  })
 ])
 
 const doubleCounterReducer = createReducer({ count: 0}, [
-  when(CounterMsg.increment, (state, { delta }) => {
+  on(CounterMsg.increment, (state, { delta }) => {
     return { count: state.count + 2 * delta }
   })
 ])
