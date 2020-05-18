@@ -6,7 +6,7 @@
 [![Coverage status](https://coveralls.io/repos/github/js-works/js-reducers/badge.svg?branch=master)](https://coveralls.io/github/js-works/js-reducers?branch=master)
 
 
-A small library to handle state reducers in an opinionated way.
+A small library to when state reducers in an opinionated way.
 This a sister project of [*js-messages*](https://github.com/js-works/js-messages).
 In combination they provide a more concise way for application that base on
 [*Redux*](https://redux.js.org).
@@ -16,21 +16,21 @@ In combination they provide a more concise way for application that base on
 * `createReducer(config)`
   => concise way to implement state reducers
 
+* `on(messageCreator | type, reduce)`
+  => helper function to use in combination with createReducer (see below)
+
 * `when(messageCreator | type, reduce)`
   => helper function to use in combination with createReducer (see below)
 
-* `handle(messageCreator | type, reduce)`
-  => helper function to use in combination with createReducer (see below)
-
 * `combineReducers(config)`
-  => combine multiple reducers to a more complex one that handles state
+  => combine multiple reducers to a more complex one that whens state
   of several domains (similar to the same-named function in redux)
 
 ### Usage (demo is completely type-safe with TypeScript)
 
 ```javascript
 import { defineMessage } from 'js-messages'
-import { createReducer, combineReducer, handle, when } from 'js-reducers'
+import { createReducer, combineReducer, on, when } from 'js-reducers'
 
 // This will generate message creators for the counter domain.
 const CounterMsg = {
@@ -61,33 +61,33 @@ const initialLogState = {
   entries: [] as { level: 'info' | 'warn' | 'error', text: string }[]
 }
 
-// The `when` helper is useful if you want to define
+// The `on` helper is useful if you want to define
 // reducers in a strict functional way.
 const counterReducer = createReducer(initialCountState, [
-  when(CounterMsg.increment, (state, { delta }) => {
+  on(CounterMsg.increment, (state, { delta }) => {
     return { ...state, count: state.count + delta }
   }),
 
-  when(CounterMsg.reset, (state, { count }) => {
+  on(CounterMsg.reset, (state, { count }) => {
     return { ...state, count }
   })
 ]) 
 
-// The `handle` helper is useful if you want to define
+// The `when` helper is useful if you want to define
 // reducers in an imperative way (using Immer internally).
 // Be aware the created reducer will still behave completely
 // strict functional externally - nobody will notice that
 // Immer has been used internally.
 const logReducer = createReducer(initialLogState, [
-  handle(LogMsg.info, (state, { text }) => {
+  when(LogMsg.info, (state, { text }) => {
     state.entries.push({ level: 'info', text })
   }),
   
-  handle(LogMsg.warn, (state, { text }) => {
+  when(LogMsg.warn, (state, { text }) => {
     state.entries.push({ level: 'warn', text })
   }),
   
-  handle(LogMsg.error, (state, { text }) => {
+  when(LogMsg.error, (state, { text }) => {
     state.entries.push({ level: 'error', text })
   })
 ]) 
