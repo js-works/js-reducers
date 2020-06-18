@@ -5,24 +5,24 @@
 [![Build status](https://travis-ci.com/js-works/js-reducers.svg)](https://travis-ci.org/js-works/js-reducers)
 [![Coverage status](https://coveralls.io/repos/github/js-works/js-reducers/badge.svg?branch=master)](https://coveralls.io/github/js-works/js-reducers?branch=master)
 
-
 A small library to when state reducers in an opinionated way.
-This a sister project of [*js-messages*](https://github.com/js-works/js-messages).
+This a sister project of [_js-messages_](https://github.com/js-works/js-messages).
 In combination they provide a more concise way for application that base on
-[*Redux*](https://redux.js.org).
+[_Redux_](https://redux.js.org).
 
 ### API
 
-* `createReducer(config)`
+- `createReducer(config)`
   => concise way to implement state reducers
 
-* `on(messageCreator | type, reduce)`
-  => helper function to use in combination with createReducer (see below)
+- `on(messageCreator | type, reduce)`
+  => helper function to be used in combination with createReducer (see below)
 
-* `when(messageCreator | type, reduce)`
-  => helper function to use in combination with createReducer (see below)
+- `when(messageCreator | type, update)`
+  => helper function (based on "immer" library) to be used in
+  combination with createReducer (see below)
 
-* `combineReducers(config)`
+- `combineReducers(config)`
   => combine multiple reducers to a more complex one that whens state
   of several domains (similar to the same-named function in redux)
 
@@ -36,7 +36,7 @@ import { createReducer, combineReducer, on, when } from 'js-reducers'
 const CounterMsg = {
   increment: defineMessage('counter.increment',
     (delta: number = 1) => ({ delta })),
-  
+
   reset: defineMessage('counter.reset',
     (count: number = 0) => ({ count }))
 }
@@ -71,7 +71,7 @@ const counterReducer = createReducer(initialCountState, [
   on(CounterMsg.reset, (state, { count }) => {
     return { ...state, count }
   })
-]) 
+])
 
 // The `when` helper is useful if you want to define
 // reducers in an imperative way (using Immer internally).
@@ -82,15 +82,15 @@ const logReducer = createReducer(initialLogState, [
   when(LogMsg.info, (state, { text }) => {
     state.entries.push({ level: 'info', text })
   }),
-  
+
   when(LogMsg.warn, (state, { text }) => {
     state.entries.push({ level: 'warn', text })
   }),
-  
+
   when(LogMsg.error, (state, { text }) => {
     state.entries.push({ level: 'error', text })
   })
-]) 
+])
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -100,4 +100,4 @@ const rootReducer = combineReducers({
 
 ### Project status
 
-*js-reducers* is still in alpha stage.
+_js-reducers_ is in alpha stage.

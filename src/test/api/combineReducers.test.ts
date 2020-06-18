@@ -32,7 +32,7 @@ describe('combineReducers', () => {
     expect(
       reduce(
         { counter: { count: 0 }, doubleCounter: { count: 0 } },
-        CounterMsg.increment(10) as any // TODO!!!!!!!
+        CounterMsg.increment(10)
       )
     ).to.eql({ counter: { count: 10 }, doubleCounter: { count: 20 } })
   })

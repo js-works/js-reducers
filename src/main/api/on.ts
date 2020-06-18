@@ -23,6 +23,6 @@ function on<S extends State>(
 ): Case<any, S> {
   return {
     type: typeof kind === 'string' ? kind : kind.type,
-    reduce: reduce as any // TODO!!!!!!!
+    reduce
   }
 }

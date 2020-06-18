@@ -9,9 +9,13 @@ type CombinedState<R extends Reducers> = {
   [K in keyof R]: R[K] extends Reducer<infer S, any> ? S : never
 }
 
+type MessageType<R extends Reducer<any, any>> = R extends Reducer<any, infer M>
+  ? M
+  : never
+
 type CombinedReducer<R extends Reducers> = Reducer<
   CombinedState<R>,
-  Record<keyof R, R[keyof R]>
+  { [K in keyof R]: MessageType<R[K]> }[keyof R]
 >
 
 export default function combineReducers<R extends Reducers>(
@@ -19,7 +23,7 @@ export default function combineReducers<R extends Reducers>(
 ): CombinedReducer<R> {
   const keys: (keyof R)[] = Object.keys(reducers)
 
-  return ((state: CombinedState<R>, msg: Message<any, any>) => {
+  return (state: CombinedState<R> | undefined, msg: Message<any, any>) => {
     let newState: CombinedState<R> | null = null
 
     keys.forEach((key) => {
@@ -36,5 +40,5 @@ export default function combineReducers<R extends Reducers>(
     })
 
     return newState! || state
-  }) as any // TODO!!!!!
+  }
 }
