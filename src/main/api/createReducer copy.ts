@@ -1,12 +1,8 @@
 import hasOwnProp from '../internal/hasOwnProp'
 import State from '../internal/types/State'
 import Case from '../internal/types/Case'
-import Reducer from '../internal/types/Reducer'
 
-export default function createReducer<S extends Readonly<State>>(
-  initialState: S,
-  cases: Case<any, S>[]
-): Reducer<S, any> {
+export default function createReducer<S extends Readonly<State>>(initialState: S, cases: Case<any, S>[]) {
   const reducers: any = {}
 
   cases.forEach(({ type, reduce }) => {
@@ -18,7 +14,7 @@ export default function createReducer<S extends Readonly<State>>(
 
     if (msg && hasOwnProp(msg, 'type') && hasOwnProp(reducers, msg.type)) {
       const result = reducers[msg.type](state, msg)
-
+      
       if (result && result !== state) {
         ret = Object.assign({}, state, result)
       }

@@ -16,17 +16,24 @@ const counterReducer = createReducer({ count: 0 }, [
   })
 ])
 
-const doubleCounterReducer = createReducer({ count: 0}, [
+const doubleCounterReducer = createReducer({ count: 0 }, [
   on(CounterMsg.increment, (state, { delta }) => {
     return { count: state.count + 2 * delta }
   })
 ])
 
-const reduce = combineReducer({ counter: counterReducer, doubleCounter: doubleCounterReducer })
+const reduce = combineReducer({
+  counter: counterReducer,
+  doubleCounter: doubleCounterReducer
+})
 
-describe('combineReduders', () => {
+describe('combineReducers', () => {
   it('should combine serveral reducers to one single reducer', () => {
-    expect(reduce({ counter: { count: 0 }, doubleCounter: { count: 0 } }, CounterMsg.increment(10)))
-      .to.eql({ counter: { count: 10 }, doubleCounter: { count: 20 } })
+    expect(
+      reduce(
+        { counter: { count: 0 }, doubleCounter: { count: 0 } },
+        CounterMsg.increment(10) as any // TODO!!!!!!!
+      )
+    ).to.eql({ counter: { count: 10 }, doubleCounter: { count: 20 } })
   })
 })

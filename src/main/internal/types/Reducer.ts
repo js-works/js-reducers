@@ -1,5 +1,9 @@
+import Message from './Message'
 import State from './State'
 
-type Reducer<S extends State, M extends { type: string } = any> = (state: S | undefined, msg: M) => S
+type Reducer<S extends State, M extends Message<any, any>> = (
+  state: S | undefined,
+  message: M
+) => S
 
 export default Reducer

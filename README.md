@@ -97,6 +97,7 @@ const rootReducer = combineReducers({
   log: logReducer
 })
 ```
+
 ### Project status
 
 *js-reducers* is still in alpha stage.

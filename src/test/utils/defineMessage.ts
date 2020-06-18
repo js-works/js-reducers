@@ -1,26 +1,24 @@
+import Props from '../../main/internal/types/Props'
+import Message from '../../main/internal/types/Message'
+import MessageCreator from '../../main/internal/types/MessageCreator'
+
 export default defineMessage
 
-function defineMessage<T extends string, A extends any[], P>(
+function defineMessage<T extends string, A extends any[], P extends Props>(
   type: T
-): {
-  (...args: A): { type: T },
-  type: T
-}
+): MessageCreator<T, A, P>
 
-function defineMessage<T extends string, A extends any[], P>(
+function defineMessage<T extends string, A extends any[], P extends Props>(
   type: T,
-  getPayload: (...args: A) => P
-): {
-  (...args: A): { type: T, payload: P },
-  type: T
-}
+  getProps: (...args: A) => P
+): MessageCreator<T, A, P>
 
-function defineMessage<T extends string, A extends any[]>(
+function defineMessage<T extends string, A extends any[], P extends Props>(
   type: T,
-  getPayload?: any
-): any {
-  const ret = (...args: A) =>
-    getPayload ? { type, payload: getPayload(...args) } : { type }
+  getProps?: (...args: A) => P
+): MessageCreator<T, A, P> {
+  const ret: any = (...args: A) =>
+    getProps ? { type, ...getProps(...args) } : { type }
 
   ret.type = type
 

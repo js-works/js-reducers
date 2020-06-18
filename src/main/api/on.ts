@@ -1,37 +1,28 @@
 import Case from '../internal/types/Case'
+import Props from '../internal/types/Props'
 import State from '../internal/types/State'
+import Message from '../internal/types/Message'
 import MessageCreator from '../internal/types/MessageCreator'
-import getOwnProp from '../internal/getOwnProp'
+import StrictReducer from '../internal/types/StrictReducer'
 
 export default on
 
-function on<T extends string, P, M, S extends State>(
-  messageCreator: MessageCreator<T, P, M>,
-  handle: (state: S, payload: P, meta: M) => S
+function on<T extends string, P extends Props, S extends State>(
+  messageCreator: MessageCreator<T, any, P>,
+  reduce: StrictReducer<S, Message<T, P>>
 ): Case<T, S>
 
 function on<S extends State>(
   type: string,
-  handle: (state: S, msg: { title: string } & Record<string, any>)  => S
+  reduce: StrictReducer<S, Message<string, any>>
 ): Case<any, S>
 
-function on<S extends State>(arg1: any, arg2: any): Case<string, S> { // TODO
-  if (typeof arg1 === 'string') {
-    return {
-      type: arg1,
-      reduce: (state: S, msg: any) => arg2(state, msg) 
-    }
-  } else {
-    return {
-      type: arg1.type,
-
-      reduce(state: S, msg: { type: string }): S {
-        return arg2(
-          state,
-          getOwnProp(msg, 'payload'),
-          getOwnProp(msg, 'meta')
-        )
-      }
-    }
+function on<S extends State>(
+  kind: MessageCreator<any, any, any> | string,
+  reduce: StrictReducer<S, any>
+): Case<any, S> {
+  return {
+    type: typeof kind === 'string' ? kind : kind.type,
+    reduce: reduce as any // TODO!!!!!!!
   }
 }
