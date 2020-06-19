@@ -30,7 +30,7 @@ const reduce = createReducer({ count: 0 }, [
 ])
 
 describe('createReducer', () => {
-  it('should create reducer that whens several message types', () => {
+  it('should create reducer that handles several message types', () => {
     expect(reduce({ count: 0 }, CounterMsg.increment())).to.eql({ count: 1 })
 
     expect(reduce({ count: 42 }, CounterMsg.decrement(2))).to.eql({ count: 40 })
