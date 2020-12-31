@@ -29,29 +29,21 @@ In combination they provide a more concise way for application that base on
 ### Usage (demo is completely type-safe with TypeScript)
 
 ```javascript
-import { defineMessage } from 'js-messages'
+import { defineMessages } from 'js-messages'
 import { createReducer, combineReducer, on, when } from 'js-reducers'
 
 // This will generate message creators for the counter domain.
-const CounterMsg = {
-  increment: defineMessage('counter.increment',
-    (delta: number = 1) => ({ delta })),
+const CounterMsg = defineMessages('counter', {
+  increment: (delta: number = 1) => ({ delta }),
+  reset: (count: number = 0) => ({ count })
+})
 
-  reset: defineMessage('counter.reset',
-    (count: number = 0) => ({ count }))
-}
-
-// This will generate message creators for the counter domain.
-const LogMsg = {
-  info: defineMessage('log.info',
-    (text: string) => ({ text })),
-
-  warn: defineMessage('log.info',
-    (text: string) => ({ text })),
-
-  error: defineMessage('log.error',
-    (text: string) => ({ text })
-}
+// This will generate message creators for the log domain.
+const LogMsg = defineMessages('log', {
+  info: (text: string) => ({ text }),
+  warn: (text: string) => ({ text }),
+  error: (text: string) => ({ text })
+})
 
 const initialCounterState = {
   count: 0
