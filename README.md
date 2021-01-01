@@ -8,17 +8,17 @@
 A small library to when state reducers in an opinionated way.
 This a sister project of [_js-messages_](https://github.com/js-works/js-messages).
 In combination they provide a more concise way for application that base on
-[_Redux_](https://redux.js.org).
+[_Redux_](https://redux.js.org) patterns.
 
 ### API
 
 - `createReducer(config)`
   => concise way to implement state reducers
 
-- `on(messageCreator | type, reduce)`
+- `$(messageCreator | type, reduce)`
   => helper function to be used in combination with createReducer (see below)
 
-- `when(messageCreator | type, update)`
+- `on(messageCreator | type, update)`
   => helper function (based on "immer" library) to be used in
   combination with createReducer (see below)
 
@@ -30,7 +30,7 @@ In combination they provide a more concise way for application that base on
 
 ```javascript
 import { defineMessages } from 'js-messages'
-import { createReducer, combineReducer, on, when } from 'js-reducers'
+import { createReducer, combineReducer, on, $ } from 'js-reducers'
 
 // This will generate message creators for the counter domain.
 const CounterMsg = defineMessages('counter', {
@@ -56,11 +56,11 @@ const initialLogState = {
 // The `on` helper is useful if you want to define
 // reducers in a strict functional way.
 const counterReducer = createReducer(initialCountState, [
-  on(CounterMsg.increment, (state, { delta }) => {
+  $(CounterMsg.increment, (state, { delta }) => {
     return { ...state, count: state.count + delta }
   }),
 
-  on(CounterMsg.reset, (state, { count }) => {
+  $(CounterMsg.reset, (state, { count }) => {
     return { ...state, count }
   })
 ])
@@ -71,15 +71,15 @@ const counterReducer = createReducer(initialCountState, [
 // strict functional externally - nobody will notice that
 // Immer has been used internally.
 const logReducer = createReducer(initialLogState, [
-  when(LogMsg.info, (state, { text }) => {
+  on(LogMsg.info, (state, { text }) => {
     state.entries.push({ level: 'info', text })
   }),
 
-  when(LogMsg.warn, (state, { text }) => {
+  on(LogMsg.warn, (state, { text }) => {
     state.entries.push({ level: 'warn', text })
   }),
 
-  when(LogMsg.error, (state, { text }) => {
+  on(LogMsg.error, (state, { text }) => {
     state.entries.push({ level: 'error', text })
   })
 ])
@@ -92,4 +92,4 @@ const rootReducer = combineReducers({
 
 ### Project status
 
-_js-reducers_ is in alpha stage.
+_js-reducers_ is in beta stage.
