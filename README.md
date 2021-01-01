@@ -5,7 +5,7 @@
 [![Build status](https://travis-ci.com/js-works/js-reducers.svg)](https://travis-ci.org/js-works/js-reducers)
 [![Coverage status](https://coveralls.io/repos/github/js-works/js-reducers/badge.svg?branch=master)](https://coveralls.io/github/js-works/js-reducers?branch=master)
 
-A small library to when state reducers in an opinionated way.
+A small library to build state reducers in an opinionated way.
 This a sister project of [_js-messages_](https://github.com/js-works/js-messages).
 In combination they provide a more concise way for application that base on
 [_Redux_](https://redux.js.org) patterns.
