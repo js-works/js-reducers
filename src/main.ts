@@ -60,9 +60,10 @@ function createReducer<S extends Readonly<State>>(
 ): Reducer<S, any> {
   const reducers: any = {}
 
-  cases.forEach(({ type, reduce }) => {
+  for (let i = 0; i < cases.length; ++i) {
+    const { type, reduce } = cases[i]
     reducers[type] = reduce
-  })
+  }
 
   return (state = initialState, msg: { type: string }): S => {
     let ret = state
@@ -84,23 +85,23 @@ function createReducer<S extends Readonly<State>>(
 function combineReducers<R extends Reducers<M>, M extends Message<any, any>>(
   reducers: R
 ): CombinedReducer<R, M> {
-  const keys: (keyof R)[] = Object.keys(reducers)
-
   return (state: CombinedState<R> | undefined, msg: Message<any, any>) => {
     let newState: CombinedState<R> | null = null
 
-    keys.forEach((key) => {
-      const subState = state ? state[key] : undefined,
-        newSubState = reducers[key](subState, msg)
+    for (const key in reducers) {
+      if (hasOwnProp(reducers, key)) {
+        const subState = state ? state[key] : undefined,
+          newSubState = reducers[key](subState, msg)
 
-      if (newSubState && newSubState !== subState) {
-        if (!newState) {
-          newState = Object.assign({}, state)
+        if (newSubState && newSubState !== subState) {
+          if (!newState) {
+            newState = Object.assign({}, state)
+          }
+
+          newState[key] = newSubState
         }
-
-        newState[key] = newSubState
       }
-    })
+    }
 
     return newState! || state
   }

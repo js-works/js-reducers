@@ -9,7 +9,10 @@
     "lib": ["es7"],
     "esModuleInterop": true,
     "typeRoots": ["node_modules/@types"],
-    "types": ["node", "mocha", "chai"]
+    "types": ["node", "mocha", "chai"],
+    "paths": {
+      "tslib": ["./node_modules/tslib/tslib.d.ts"]
+    }
   },
   "files": ["src/main.ts"]
 }

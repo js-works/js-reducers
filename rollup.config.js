@@ -20,7 +20,7 @@ function createConfig(moduleFormat) {
     input: 'src/main.ts',
 
     output: {
-      file: `dist/js-reducers.{moduleFormat}.js`,
+      file: `dist/js-reducers.${moduleFormat}.js`,
       format: moduleFormat,
       name: 'jsReducers',
       sourcemap: false
