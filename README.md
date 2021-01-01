@@ -53,7 +53,7 @@ const initialLogState = {
   entries: [] as { level: 'info' | 'warn' | 'error', text: string }[]
 }
 
-// The `on` helper is useful if you want to define
+// The `$` helper is useful if you want to define
 // reducers in a strict functional way.
 const counterReducer = createReducer(initialCountState, [
   $(CounterMsg.increment, (state, { delta }) => {
@@ -65,7 +65,7 @@ const counterReducer = createReducer(initialCountState, [
   })
 ])
 
-// The `when` helper is useful if you want to define
+// The `on` helper is useful if you want to define
 // reducers in an imperative way (using Immer internally).
 // Be aware the created reducer will still behave completely
 // strict functional externally - nobody will notice that
