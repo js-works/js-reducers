@@ -25,7 +25,7 @@
     "coveralls": "^3.1.0",
     "cross-conf-env": "^1.2.1",
     "crypto.js": "^2.0.2",
-    "immer": "^8.0.0",
+    "immer": "^8.0.1",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0",
     "rollup": "^2.35.1",
