@@ -15,7 +15,7 @@ In combination they provide a more concise way for application that base on
 - `createReducer(config)`
   => concise way to implement state reducers
 
-- `$(messageCreator | type, reduce)`
+- `when(messageCreator | type, reduce)`
   => helper function to be used in combination with createReducer (see below)
 
 - `on(messageCreator | type, update)`
@@ -30,7 +30,7 @@ In combination they provide a more concise way for application that base on
 
 ```javascript
 import { defineMessages } from 'js-messages'
-import { createReducer, combineReducer, on, $ } from 'js-reducers'
+import { createReducer, combineReducer, on, when } from 'js-reducers'
 
 // This will generate message creators for the counter domain.
 const CounterMsg = defineMessages('counter', {
@@ -53,14 +53,14 @@ const initialLogState = {
   entries: [] as { level: 'info' | 'warn' | 'error', text: string }[]
 }
 
-// The `$` helper is useful if you want to define
+// The `when` helper is useful if you want to define
 // reducers in a strict functional way.
 const counterReducer = createReducer(initialCountState, [
-  $(CounterMsg.increment, (state, { delta }) => {
+  when(CounterMsg.increment, (state, { delta }) => {
     return { ...state, count: state.count + delta }
   }),
 
-  $(CounterMsg.reset, (state, { count }) => {
+  when(CounterMsg.reset, (state, { count }) => {
     return { ...state, count }
   })
 ])

@@ -4,7 +4,7 @@ import { produce } from 'immer'
 
 // === exports =======================================================
 
-export { createReducer, combineReducers, on, $ }
+export { createReducer, combineReducers, on, when }
 
 // === types =========================================================
 
@@ -107,19 +107,19 @@ function combineReducers<R extends Reducers<M>, M extends Message<any, any>>(
   }
 }
 
-// === $ =============================================================
+// === when ==========================================================
 
-function $<T extends string, P extends Props, S extends State>(
+function when<T extends string, P extends Props, S extends State>(
   messageCreator: MessageCreator<T, any, P>,
   reduce: StrictReducer<S, Message<T, P>>
 ): Case<T, S>
 
-function $<S extends State>(
+function when<S extends State>(
   type: string,
   reduce: StrictReducer<S, Message<string, any>>
 ): Case<any, S>
 
-function $<S extends State>(
+function when<S extends State>(
   kind: MessageCreator<any, any, any> | string,
   reduce: StrictReducer<S, any>
 ): Case<any, S> {

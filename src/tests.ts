@@ -2,7 +2,7 @@
 
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { createReducer, combineReducers, on, $ } from './main'
+import { createReducer, combineReducers, on, when } from './main'
 
 // === types =========================================================
 
@@ -30,11 +30,11 @@ const CounterMsg = {
 // === createReduers ==================================================
 
 const reducer1 = createReducer({ count: 0 }, [
-  $(CounterMsg.increment, (state, { delta }) => {
+  when(CounterMsg.increment, (state, { delta }) => {
     return { ...state, count: state.count + delta }
   }),
 
-  $('decrement', (state, msg) => {
+  when('decrement', (state, msg) => {
     return { ...state, count: state.count - msg.delta }
   }),
 
